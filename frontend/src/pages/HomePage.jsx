@@ -8,7 +8,7 @@ const Homepage = () => {
     <div className="min-h-screen bg-white">
       {/* Navbar */}
       <nav className="flex items-center justify-between px-8 py-5 border-b border-slate-200">
-        <h1 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+        <h1 className="text-2xl font-bold bg-linear-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
           TrackDSA
         </h1>
 
@@ -33,7 +33,7 @@ const Homepage = () => {
       <main className="max-w-5xl mx-auto px-6 pt-24 pb-20 text-center">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
           Track your{' '}
-          <span className="bg-gradient-to-r from-purple-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
+          <span className="bg-linear-to-r from-purple-600 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
             DSA Journey
           </span>
           <br />

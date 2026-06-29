@@ -74,7 +74,7 @@ const Problems = () => {
       <div className="max-w-6xl mx-auto px-6">
 
         {/* HEADER */}
-        <h1 className="text-3xl font-bold mb-6 bg-gradient-to-r from-violet-500 to-pink-500 bg-clip-text text-transparent">
+        <h1 className="text-3xl font-bold mb-6 bg-linear-to-r from-violet-500 to-pink-500 bg-clip-text text-transparent">
           Your Problems
         </h1>
 
@@ -167,7 +167,7 @@ const Problems = () => {
               Difficulty Distribution
             </h2>
 
-            <div className="w-full h-[280px]">
+            <div className="w-full h-70">
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie

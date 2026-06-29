@@ -12,7 +12,7 @@ const UserNotFound = () => {
         <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
 
           {/* Top Banner */}
-          <div className="bg-gradient-to-r from-violet-600 to-pink-500 p-8 text-center">
+          <div className="bg-linear-to-r from-violet-600 to-pink-500 p-8 text-center">
             <div className="text-7xl mb-2 text-white"><LuUserRoundSearch /></div>
 
             <h1 className="text-4xl font-bold text-white">
@@ -48,7 +48,7 @@ const UserNotFound = () => {
                   px-6
                   py-3
                   rounded-xl
-                  bg-gradient-to-r
+                  bg-linear-to-r
                   from-violet-600
                   to-pink-500
                   text-white

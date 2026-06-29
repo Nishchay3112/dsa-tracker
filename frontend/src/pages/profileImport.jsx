@@ -102,7 +102,7 @@ const ProfileImport = () => {
         <div className="bg-white rounded-3xl shadow-xl border border-slate-200 overflow-hidden">
 
           {/* Banner */}
-          <div className="bg-gradient-to-r from-violet-600 to-pink-500 p-8 text-white">
+          <div className="bg-linear-to-r from-violet-600 to-pink-500 p-8 text-white">
             <h2 className="text-2xl font-bold">Sync Your Progress</h2>
             <p className="mt-2 text-violet-100">
               Import solved problems from coding platforms automatically.
@@ -167,7 +167,7 @@ const ProfileImport = () => {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="px-8 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-pink-500 text-white font-semibold shadow-md hover:scale-[1.02] transition"
+                  className="px-8 py-3 rounded-xl bg-linear-to-r from-violet-600 to-pink-500 text-white font-semibold shadow-md hover:scale-[1.02] transition"
                 >
                   {loading ? "Importing..." : "Import Profile"}
                 </button>
@@ -230,7 +230,7 @@ const ProfileImport = () => {
             <div className="mt-8 flex justify-end">
               {profileData && <button
                 type="submit"
-                className="px-8 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-pink-500 text-white font-semibold shadow-md hover:scale-[1.02] transition" onClick={databaseEnter}
+                className="px-8 py-3 rounded-xl bg-linear-to-r from-violet-600 to-pink-500 text-white font-semibold shadow-md hover:scale-[1.02] transition" onClick={databaseEnter}
               >
                 Save Profile
               </button>}

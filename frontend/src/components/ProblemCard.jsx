@@ -55,7 +55,7 @@ const ProblemCard = ({
       </div>
 
       {/* NOTES */}
-      <p className="mt-4 text-sm text-slate-600 line-clamp-4 flex-grow">
+      <p className="mt-4 text-sm text-slate-600 line-clamp-4 grow">
         {notes}
       </p>
 
