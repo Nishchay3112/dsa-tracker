@@ -1,0 +1,27 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing: border-box;
+}
+
+.mycontainer{
+  width:100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login{
+  text-align: center;
+}
+
+.boundary{
+  border:solid black 1px;
+  border-radius:2.5rem;
+  padding:3rem;
+}
+
+.mybutton{
+  width:100%;
+}
