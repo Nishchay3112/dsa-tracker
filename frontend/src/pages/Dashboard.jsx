@@ -83,7 +83,7 @@ const Dashboard = () => {
           <div>
             <h1 className="text-4xl font-bold text-slate-900">
               Welcome back,
-              <span className="bg-gradient-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
+              <span className="bg-linear-to-r from-purple-600 to-pink-500 bg-clip-text text-transparent">
                 {" "} {User.username || "Coder"}
               </span>
             </h1>
@@ -267,12 +267,12 @@ const Dashboard = () => {
             {/* Submit Button */}
             <div className="flex justify-between">
               <button
-                className="w-2/5 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.01] transition"
+                className="w-2/5 py-3.5 rounded-xl bg-linear-to-r from-purple-600 to-pink-500 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.01] transition"
               >
                 Add Problem
               </button>
               <button
-                className="w-2/5 py-3.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-500 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.01] transition" onClick={() => {
+                className="w-2/5 py-3.5 rounded-xl bg-linear-to-r from-purple-600 to-pink-500 text-white font-semibold shadow-md hover:shadow-lg hover:scale-[1.01] transition" onClick={() => {
                   Navigate('/problems');
                 }}
               >
