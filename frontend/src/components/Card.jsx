@@ -18,7 +18,7 @@ const Card = () => {
   async function submitHandler(e) {
     e.preventDefault();
 
-    const res = await fetch('http://localhost:3001/user/login', {
+    const res = await fetch('https://dsa-tracker-lwd0.onrender.com/user/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

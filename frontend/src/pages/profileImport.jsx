@@ -12,7 +12,7 @@ const ProfileImport = () => {
 
   useEffect(() => {
     async function fetchUser() {
-      const res = await fetch("http://localhost:3001/user/me", {
+      const res = await fetch("https://dsa-tracker-lwd0.onrender.com/user/me", {
         credentials: "include",
       });
 
@@ -52,7 +52,7 @@ const ProfileImport = () => {
           easy: data.submitStats.acSubmissionNum[1].count,
           medium: data.submitStats.acSubmissionNum[2].count,
           hard: data.submitStats.acSubmissionNum[3].count,
-          pic:data.profile.userAvatar
+          pic: data.profile.userAvatar
         });
       }
     } catch (err) {
@@ -64,7 +64,7 @@ const ProfileImport = () => {
 
   async function databaseEnter() {
     const res = await fetch(
-      "http://localhost:3001/user/import-profile",
+      "https://dsa-tracker-lwd0.onrender.com/user/import-profile",
       {
         method: "POST",
         credentials: "include",
@@ -72,8 +72,9 @@ const ProfileImport = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-        platform,
-        ...profileData}),
+          platform,
+          ...profileData
+        }),
       }
     );
 
@@ -180,14 +181,14 @@ const ProfileImport = () => {
             {/* ===================== */}
 
             {profileData && (
-            
+
               <div className="mt-10">
                 <h3 className="text-lg font-semibold text-slate-800 mb-4">
                   Preview
                 </h3>
 
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 shadow-sm">
-                  <div className="flex w-100% justify-center py-3"><img src={profileData.pic} alt="Profile picture" className="h-24 w-24 rounded-full"/></div>
+                  <div className="flex w-100% justify-center py-3"><img src={profileData.pic} alt="Profile picture" className="h-24 w-24 rounded-full" /></div>
 
                   <div className="flex justify-between items-center">
                     <h4 className="text-xl font-bold text-slate-900">

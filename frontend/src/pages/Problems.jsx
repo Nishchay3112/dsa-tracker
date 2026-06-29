@@ -15,7 +15,7 @@ const Problems = () => {
   const [profiles, setProfiles] = useState([]);
 
   async function handleDelete(id) {
-    const res = await fetch(`http://localhost:3001/user/delete/${id}`, {
+    const res = await fetch(`https://dsa-tracker-lwd0.onrender.com/user/delete/${id}`, {
       method: "GET",
       credentials: "include",
     });
@@ -28,7 +28,7 @@ const Problems = () => {
   useEffect(() => {
     async function fetchProblems() {
       try {
-        const res = await fetch("http://localhost:3001/user/problems", {
+        const res = await fetch("https://dsa-tracker-lwd0.onrender.com/user/problems", {
           credentials: "include",
         });
 
@@ -41,7 +41,7 @@ const Problems = () => {
 
     async function fetchProfiles() {
       try {
-        const res = await fetch("http://localhost:3001/user/profiles", {
+        const res = await fetch("https://dsa-tracker-lwd0.onrender.com/user/profiles", {
           credentials: "include",
         });
 
@@ -140,19 +140,19 @@ const Problems = () => {
                   </div>
 
                   <div className="flex justify-center py-2.5">
-                  <a
-                    href={
-                      profile.platform === "leetcode"
-                        ? `https://leetcode.com/u/${profile.username}/`
-                        : "#"
-                    }
-                    target="_blank"
-                    rel="noreferrer" className="no-underline" 
-                  >
-                    <button className="px-5 py-2.5 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 transition shadow-sm flex items-center gap-3 group">
-                                View Profile <span className="text-2xl transition duration 400 group-hover:rotate-90"><GoArrowUpRight /></span>
-                              </button>
-                  </a>
+                    <a
+                      href={
+                        profile.platform === "leetcode"
+                          ? `https://leetcode.com/u/${profile.username}/`
+                          : "#"
+                      }
+                      target="_blank"
+                      rel="noreferrer" className="no-underline"
+                    >
+                      <button className="px-5 py-2.5 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 transition shadow-sm flex items-center gap-3 group">
+                        View Profile <span className="text-2xl transition duration 400 group-hover:rotate-90"><GoArrowUpRight /></span>
+                      </button>
+                    </a>
                   </div>
                 </div>
               ))}

@@ -10,12 +10,12 @@ const Dashboard = () => {
   const [platform, setPlatform] = useState('');
   const [topics, setTopics] = useState('');
   const [notes, setNotes] = useState('');
-  const [arrow,setArrow] = useState('up');
+  const [arrow, setArrow] = useState('up');
   async function addProblemHandler(e) {
     e.preventDefault();
 
     const res = await fetch(
-      'http://localhost:3001/user/dashboard',
+      'https://dsa-tracker-lwd0.onrender.com/user/dashboard',
       {
         method: 'POST',
         credentials: 'include',
@@ -44,7 +44,7 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchUser() {
       const res = await fetch(
-        'http://localhost:3001/user/me',
+        'https://dsa-tracker-lwd0.onrender.com/user/me',
         {
           credentials: 'include'
         }
@@ -64,7 +64,7 @@ const Dashboard = () => {
 
   async function logoutHandler() {
     const res = await fetch(
-      'http://localhost:3001/user/logout',
+      'https://dsa-tracker-lwd0.onrender.com/user/logout',
       {
         credentials: 'include'
       }
@@ -93,7 +93,7 @@ const Dashboard = () => {
             </p>
           </div>
 
-          <button className="px-5 py-2.5 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 transition shadow-sm flex items-center gap-3 group" onClick={()=>{
+          <button className="px-5 py-2.5 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 transition shadow-sm flex items-center gap-3 group" onClick={() => {
             Navigate('/profileImport');
           }}>
             Import Profile <span className="text-2xl transition duration 400 group-hover:rotate-90"><GoArrowUpRight /></span>
