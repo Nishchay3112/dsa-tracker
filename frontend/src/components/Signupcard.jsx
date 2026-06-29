@@ -9,52 +9,49 @@ const Signupcard = () => {
 
   const navigate = useNavigate();
 
-  function userchangeHandler(e) {
-    setusername(e.target.value);
-  }
-
-  function passchangeHandler(e) {
-    setpassword(e.target.value);
-  }
-
-  function useremailchangeHandler(e) {
-    setuseremail(e.target.value);
-  }
-
   async function submitHandler(e) {
     e.preventDefault();
+
+    if (!username || !password || !useremail) {
+      alert('Please fill all fields');
+      return;
+    }
+
     setLoading(true);
 
     try {
-      const res = await fetch('https://dsa-tracker-lwd0.onrender.com/user/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          username,
-          email: useremail,
-          password
-        })
-      });
+      const res = await fetch(
+        'https://dsa-tracker-lwd0.onrender.com/user/signup',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username,
+            email: useremail,
+            password
+          })
+        }
+      );
 
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
-        console.log('Signup failed:', data);
         alert(data?.message || 'Signup failed');
         setLoading(false);
         return;
       }
 
+      // success
       console.log('Signup success:', data);
 
+      // redirect to login
       navigate('/login');
 
     } catch (err) {
       console.error('Network error:', err);
-      alert('Server not reachable. Check backend.');
+      alert('Server not reachable');
     }
 
     setusername('');
@@ -78,52 +75,37 @@ const Signupcard = () => {
           </p>
         </div>
 
-        <div className="mb-5">
-          <label className="block mb-2 text-sm font-medium text-slate-700">
-            Username
-          </label>
+        {/* Username */}
+        <input
+          type="text"
+          value={username}
+          onChange={(e) => setusername(e.target.value)}
+          placeholder="Username"
+          className="w-full mb-4 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500"
+        />
 
-          <input
-            type="text"
-            value={username}
-            onChange={userchangeHandler}
-            placeholder="Enter username"
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
+        {/* Email */}
+        <input
+          type="email"
+          value={useremail}
+          onChange={(e) => setuseremail(e.target.value)}
+          placeholder="Email"
+          className="w-full mb-4 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500"
+        />
 
-        <div className="mb-5">
-          <label className="block mb-2 text-sm font-medium text-slate-700">
-            Email Address
-          </label>
-
-          <input
-            type="email"
-            value={useremail}
-            onChange={useremailchangeHandler}
-            placeholder="Enter email"
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
-
-        <div className="mb-6">
-          <label className="block mb-2 text-sm font-medium text-slate-700">
-            Password
-          </label>
-
-          <input
-            type="password"
-            value={password}
-            onChange={passchangeHandler}
-            placeholder="Enter password"
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
-          />
-        </div>
+        {/* Password */}
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setpassword(e.target.value)}
+          placeholder="Password"
+          className="w-full mb-6 px-4 py-3 border rounded-xl focus:ring-2 focus:ring-indigo-500"
+        />
 
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition disabled:opacity-50"
+          className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 disabled:opacity-50"
         >
           {loading ? 'Creating...' : 'Create Account'}
         </button>

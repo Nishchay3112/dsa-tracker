@@ -5,50 +5,55 @@ const Card = () => {
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
   const [loading, setLoading] = useState(false);
+
   const navigate = useNavigate();
-
-  function userchangeHandler(e) {
-    setusername(e.target.value);
-  }
-
-  function passchangeHandler(e) {
-    setpassword(e.target.value);
-  }
 
   async function submitHandler(e) {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await fetch('https://dsa-tracker-lwd0.onrender.com/user/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          username,
-          password
-        })
-      });
+      // 1. LOGIN REQUEST
+      const res = await fetch(
+        'https://dsa-tracker-lwd0.onrender.com/user/login',
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            username,
+            password
+          })
+        }
+      );
 
       const data = await res.json().catch(() => null);
 
       if (!res.ok) {
-        console.log('Login failed:', data);
         alert(data?.message || 'Login failed');
         setLoading(false);
         return;
       }
 
-      // optional debug
-      console.log('Login success:', data);
+      // 2. VERIFY SESSION (IMPORTANT STEP)
+      const meRes = await fetch(
+        'https://dsa-tracker-lwd0.onrender.com/user/me',
+        {
+          credentials: 'include'
+        }
+      );
 
-      navigate('/dashboard');
+      if (meRes.ok) {
+        navigate('/dashboard');
+      } else {
+        alert('Session not created properly. Try again.');
+      }
 
     } catch (err) {
-      console.error('Network error:', err);
-      alert('Server not reachable. Check backend.');
+      console.error(err);
+      alert('Server error or network issue');
     }
 
     setusername('');
@@ -71,6 +76,7 @@ const Card = () => {
           </p>
         </div>
 
+        {/* Username */}
         <div className="mb-5">
           <label className="block mb-2 text-sm font-medium text-slate-700">
             Username
@@ -79,12 +85,12 @@ const Card = () => {
           <input
             type="text"
             value={username}
-            onChange={userchangeHandler}
-            placeholder="Enter username"
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            onChange={(e) => setusername(e.target.value)}
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
 
+        {/* Password */}
         <div className="mb-6">
           <label className="block mb-2 text-sm font-medium text-slate-700">
             Password
@@ -93,16 +99,16 @@ const Card = () => {
           <input
             type="password"
             value={password}
-            onChange={passchangeHandler}
-            placeholder="Enter password"
-            className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
+            onChange={(e) => setpassword(e.target.value)}
+            className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
           />
         </div>
 
+        {/* Button */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition disabled:opacity-50"
+          className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 disabled:opacity-50"
         >
           {loading ? 'Signing in...' : 'Sign In'}
         </button>
