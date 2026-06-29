@@ -19,7 +19,7 @@ app.use(cookieParser());
 // cross origin resource sharing
 const cors = require('cors');
 app.use(cors({
-  origin: 'https://my-dsa-tracker-7i6h5rreb-nishchay3112s-projects.vercel.app/',
+  origin: '*',
   credentials: true
 }));
 
