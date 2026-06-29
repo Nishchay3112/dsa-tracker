@@ -44,7 +44,7 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchUser() {
       const res = await fetch(
-        'http://localhost:3001/user/me',
+        'https://dsa-tracker-lwd0.onrender.com/user/me',
         {
           credentials: 'include'
         }
@@ -64,7 +64,7 @@ const Dashboard = () => {
 
   async function logoutHandler() {
     const res = await fetch(
-      'http://localhost:3001/user/logout',
+      'https://dsa-tracker-lwd0.onrender.com/user/logout',
       {
         credentials: 'include'
       }
