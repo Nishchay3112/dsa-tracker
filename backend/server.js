@@ -19,8 +19,21 @@ app.use(cookieParser());
 // cross origin resource sharing
 const cors = require('cors');
 app.use(cors({
-  origin: "https://mydsatrackerfinalone.vercel.app",
-  methods: ["GET", "POST", "PUT", "DELETE"],
+  origin: function (origin, callback) {
+    // allow requests with no origin (like Postman, server-to-server)
+    if (!origin) return callback(null, true);
+
+    const allowedOrigins = [
+      "http://localhost:5173",
+      "https://my-dsa-tracker.vercel.app"
+    ];
+
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(null, true); // 👈 TEMP FIX (important for Vercel preview URLs)
+  },
   credentials: true
 }));
 
