@@ -88,93 +88,121 @@ const Dashboard = () => {
       <div className="max-w-5xl mx-auto px-6 py-10">
 
         {/* HEADER */}
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-10">
 
           <div>
             <h1 className="text-4xl font-bold text-slate-900">
-              Welcome{" "}
-              <span className="text-indigo-600">
-                {user?.username || "Coder"}
+              Welcome back,
+              <span className="text-purple-600">
+                {" "} {user?.username || "Coder"}
               </span>
             </h1>
 
-            <p className="text-slate-600 mt-2">
-              Track your DSA progress 🚀
+            <p className="mt-2 text-slate-600 text-lg">
+              Keep building momentum and track your coding progress.
             </p>
           </div>
 
-          <div className="flex gap-3">
-            <button
-              onClick={() => navigate("/profileImport")}
-              className="px-5 py-2 bg-blue-500 text-white rounded-xl flex items-center gap-2"
-            >
-              Import Profile <GoArrowUpRight />
-            </button>
+          <button
+            className="px-5 py-2.5 rounded-xl bg-blue-500 text-white font-medium hover:bg-blue-600 transition shadow-sm flex items-center gap-3 group"
+            onClick={() => navigate("/profileImport")}
+          >
+            Import Profile
+            <span className="text-2xl transition duration-300 group-hover:rotate-90">
+              <GoArrowUpRight />
+            </span>
+          </button>
 
-            <button
-              onClick={logoutHandler}
-              className="px-5 py-2 bg-red-500 text-white rounded-xl"
-            >
-              Logout
-            </button>
-          </div>
+          <button
+            onClick={logoutHandler}
+            className="px-5 py-2.5 rounded-xl bg-red-500 text-white font-medium hover:bg-red-600 transition shadow-sm"
+          >
+            Logout
+          </button>
 
         </div>
 
-        {/* FORM */}
-        <form onSubmit={addProblemHandler}>
-          <div className="bg-white p-6 rounded-2xl shadow-lg">
+        {/* FORM CARD */}
+        <div className="bg-white border border-slate-200 rounded-3xl shadow-xl p-8">
 
+          <div className="flex items-center gap-4 mb-8">
+            <div className="text-4xl">✏️</div>
+            <div>
+              <h2 className="text-2xl font-bold text-slate-900">
+                Add New Problem
+              </h2>
+              <p className="text-slate-500">
+                Save a solved problem and track your progress.
+              </p>
+            </div>
+          </div>
+
+          <form onSubmit={addProblemHandler}>
+
+            {/* TITLE */}
             <input
+              type="text"
+              placeholder="Problem Title"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
-              placeholder="Problem Title"
-              className="w-full mb-3 px-4 py-3 border rounded-xl"
+              className="w-full mb-5 px-4 py-3 border border-slate-300 rounded-xl"
             />
 
-            <select
-              value={difficulty}
-              onChange={(e) => setDifficulty(e.target.value)}
-              className="w-full mb-3 px-4 py-3 border rounded-xl"
-            >
-              <option value="">Difficulty</option>
-              <option>Easy</option>
-              <option>Medium</option>
-              <option>Hard</option>
-            </select>
+            {/* DROPDOWNS */}
+            <div className="grid md:grid-cols-2 gap-6 mb-5">
 
-            <select
-              value={platform}
-              onChange={(e) => setPlatform(e.target.value)}
-              className="w-full mb-3 px-4 py-3 border rounded-xl"
-            >
-              <option value="">Platform</option>
-              <option>LeetCode</option>
-              <option>GFG</option>
-              <option>Codeforces</option>
-              <option>Codechef</option>
-            </select>
+              <select
+                value={difficulty}
+                onChange={(e) => setDifficulty(e.target.value)}
+                className="w-full px-4 py-3 border rounded-xl"
+              >
+                <option value="">Difficulty</option>
+                <option>Easy</option>
+                <option>Medium</option>
+                <option>Hard</option>
+              </select>
 
+              <select
+                value={platform}
+                onChange={(e) => setPlatform(e.target.value)}
+                className="w-full px-4 py-3 border rounded-xl"
+              >
+                <option value="">Platform</option>
+                <option>LeetCode</option>
+                <option>GFG</option>
+                <option>Codeforces</option>
+                <option>Codechef</option>
+                <option>AtCoder</option>
+                <option>SPOJ</option>
+                <option>Other</option>
+              </select>
+
+            </div>
+
+            {/* TOPICS */}
             <input
+              type="text"
+              placeholder="Topics (comma separated)"
               value={topics}
               onChange={(e) => setTopics(e.target.value)}
-              placeholder="Topics (comma separated)"
-              className="w-full mb-3 px-4 py-3 border rounded-xl"
+              className="w-full mb-5 px-4 py-3 border rounded-xl"
             />
 
+            {/* NOTES */}
             <textarea
+              placeholder="Notes"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Notes"
-              className="w-full mb-3 px-4 py-3 border rounded-xl"
+              className="w-full mb-5 px-4 py-3 border rounded-xl"
             />
 
-            <button className="w-full bg-indigo-600 text-white py-3 rounded-xl">
+            {/* SUBMIT */}
+            <button className="w-full bg-purple-600 text-white py-3 rounded-xl hover:bg-purple-700">
               Add Problem
             </button>
 
-          </div>
-        </form>
+          </form>
+        </div>
 
       </div>
     </div>
