@@ -19,7 +19,8 @@ app.use(cookieParser());
 // cross origin resource sharing
 const cors = require('cors');
 app.use(cors({
-  origin: '*',
+  origin: "https://mydsatrackerfinalone.vercel.app",
+  methods: ["GET", "POST", "PUT", "DELETE"],
   credentials: true
 }));
 
