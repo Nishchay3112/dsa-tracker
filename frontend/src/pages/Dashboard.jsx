@@ -3,109 +3,83 @@ import { useNavigate } from "react-router-dom";
 import { GoArrowUpRight } from "react-icons/go";
 
 const Dashboard = () => {
-  const [User, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState(null);
+  const navigate = useNavigate();
 
-  const [title, setTitle] = useState('');
-  const [difficulty, setDifficulty] = useState('');
-  const [platform, setPlatform] = useState('');
-  const [topics, setTopics] = useState('');
-  const [notes, setNotes] = useState('');
+  const [title, setTitle] = useState("");
+  const [difficulty, setDifficulty] = useState("");
+  const [platform, setPlatform] = useState("");
+  const [topics, setTopics] = useState("");
+  const [notes, setNotes] = useState("");
 
-  const Navigate = useNavigate();
-
-  // GET USER
+  // ================= FETCH USER =================
   useEffect(() => {
     async function fetchUser() {
-      try {
-        const res = await fetch(
-          'https://dsa-tracker-lwd0.onrender.com/user/me',
-          { credentials: 'include' }
-        );
-
-        if (!res.ok) {
-          Navigate('/login');
-          return;
+      const res = await fetch(
+        "https://dsa-tracker-lwd0.onrender.com/user/me",
+        {
+          credentials: "include",
         }
+      );
 
-        const data = await res.json();
-        setUser(data);
-
-      } catch (err) {
-        console.error(err);
-        Navigate('/login');
+      if (!res.ok) {
+        navigate("/login");
+        return;
       }
+
+      const data = await res.json();
+      setUser(data);
     }
 
     fetchUser();
   }, []);
 
-  // ADD PROBLEM
+  // ================= ADD PROBLEM =================
   async function addProblemHandler(e) {
     e.preventDefault();
-    setLoading(true);
 
-    try {
-      const res = await fetch(
-        'https://dsa-tracker-lwd0.onrender.com/user/dashboard',
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title,
-            difficulty,
-            platform,
-            topics,
-            notes
-          })
-        }
-      );
-
-      if (res.status === 401) {
-        Navigate('/login');
-        return;
+    const res = await fetch(
+      "https://dsa-tracker-lwd0.onrender.com/user/dashboard",
+      {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title,
+          difficulty,
+          platform,
+          topics,
+          notes,
+        }),
       }
+    );
 
-      if (!res.ok) {
-        alert("Failed to add problem");
-        return;
-      }
-
-      // success
-      setTitle('');
-      setDifficulty('');
-      setPlatform('');
-      setTopics('');
-      setNotes('');
-
-      alert("Problem added successfully");
-
-    } catch (err) {
-      console.error(err);
-      alert("Server error");
+    if (res.ok) {
+      setTitle("");
+      setDifficulty("");
+      setPlatform("");
+      setTopics("");
+      setNotes("");
     }
 
-    setLoading(false);
+    if (res.status === 401) {
+      navigate("/login");
+    }
   }
 
-  // LOGOUT
+  // ================= LOGOUT =================
   async function logoutHandler() {
-    try {
-      const res = await fetch(
-        'https://dsa-tracker-lwd0.onrender.com/user/logout',
-        { credentials: 'include' }
-      );
-
-      if (res.ok) {
-        setUser(null);
-        Navigate('/login');
+    const res = await fetch(
+      "https://dsa-tracker-lwd0.onrender.com/user/logout",
+      {
+        credentials: "include",
       }
+    );
 
-    } catch (err) {
-      console.error(err);
+    if (res.ok) {
+      navigate("/login");
     }
   }
 
@@ -114,21 +88,27 @@ const Dashboard = () => {
       <div className="max-w-5xl mx-auto px-6 py-10">
 
         {/* HEADER */}
-        <div className="flex justify-between mb-10">
+        <div className="flex justify-between items-center mb-10">
 
           <div>
-            <h1 className="text-4xl font-bold">
-              Welcome, {User?.username || "Coder"}
+            <h1 className="text-4xl font-bold text-slate-900">
+              Welcome{" "}
+              <span className="text-indigo-600">
+                {user?.username || "Coder"}
+              </span>
             </h1>
+
+            <p className="text-slate-600 mt-2">
+              Track your DSA progress 🚀
+            </p>
           </div>
 
           <div className="flex gap-3">
-
             <button
-              onClick={() => Navigate('/profileImport')}
-              className="px-5 py-2 bg-blue-500 text-white rounded-xl"
+              onClick={() => navigate("/profileImport")}
+              className="px-5 py-2 bg-blue-500 text-white rounded-xl flex items-center gap-2"
             >
-              Import Profile
+              Import Profile <GoArrowUpRight />
             </button>
 
             <button
@@ -137,25 +117,25 @@ const Dashboard = () => {
             >
               Logout
             </button>
-
           </div>
+
         </div>
 
         {/* FORM */}
         <form onSubmit={addProblemHandler}>
-          <div className="bg-white p-8 rounded-3xl shadow-xl">
+          <div className="bg-white p-6 rounded-2xl shadow-lg">
 
             <input
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Problem Title"
-              className="w-full mb-4 px-4 py-3 border rounded-xl"
+              className="w-full mb-3 px-4 py-3 border rounded-xl"
             />
 
             <select
               value={difficulty}
               onChange={(e) => setDifficulty(e.target.value)}
-              className="w-full mb-4 px-4 py-3 border rounded-xl"
+              className="w-full mb-3 px-4 py-3 border rounded-xl"
             >
               <option value="">Difficulty</option>
               <option>Easy</option>
@@ -166,7 +146,7 @@ const Dashboard = () => {
             <select
               value={platform}
               onChange={(e) => setPlatform(e.target.value)}
-              className="w-full mb-4 px-4 py-3 border rounded-xl"
+              className="w-full mb-3 px-4 py-3 border rounded-xl"
             >
               <option value="">Platform</option>
               <option>LeetCode</option>
@@ -178,22 +158,19 @@ const Dashboard = () => {
             <input
               value={topics}
               onChange={(e) => setTopics(e.target.value)}
-              placeholder="Topics"
-              className="w-full mb-4 px-4 py-3 border rounded-xl"
+              placeholder="Topics (comma separated)"
+              className="w-full mb-3 px-4 py-3 border rounded-xl"
             />
 
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Notes"
-              className="w-full mb-4 px-4 py-3 border rounded-xl"
+              className="w-full mb-3 px-4 py-3 border rounded-xl"
             />
 
-            <button
-              disabled={loading}
-              className="w-full bg-purple-600 text-white py-3 rounded-xl"
-            >
-              {loading ? "Adding..." : "Add Problem"}
+            <button className="w-full bg-indigo-600 text-white py-3 rounded-xl">
+              Add Problem
             </button>
 
           </div>
