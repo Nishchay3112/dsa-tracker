@@ -1,10 +1,10 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const Card = () => {
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   function userchangeHandler(e) {
@@ -17,25 +17,43 @@ const Card = () => {
 
   async function submitHandler(e) {
     e.preventDefault();
+    setLoading(true);
 
-    const res = await fetch('https://dsa-tracker-lwd0.onrender.com/user/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        username,
-        password
-      })
-    });
+    try {
+      const res = await fetch('https://dsa-tracker-lwd0.onrender.com/user/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          username,
+          password
+        })
+      });
 
-    if (res.ok) {
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        console.log('Login failed:', data);
+        alert(data?.message || 'Login failed');
+        setLoading(false);
+        return;
+      }
+
+      // optional debug
+      console.log('Login success:', data);
+
       navigate('/dashboard');
+
+    } catch (err) {
+      console.error('Network error:', err);
+      alert('Server not reachable. Check backend.');
     }
 
     setusername('');
     setpassword('');
+    setLoading(false);
   }
 
   return (
@@ -54,16 +72,12 @@ const Card = () => {
         </div>
 
         <div className="mb-5">
-          <label
-            htmlFor="username"
-            className="block mb-2 text-sm font-medium text-slate-700"
-          >
+          <label className="block mb-2 text-sm font-medium text-slate-700">
             Username
           </label>
 
           <input
             type="text"
-            id="username"
             value={username}
             onChange={userchangeHandler}
             placeholder="Enter username"
@@ -72,16 +86,12 @@ const Card = () => {
         </div>
 
         <div className="mb-6">
-          <label
-            htmlFor="exampleInputPassword1"
-            className="block mb-2 text-sm font-medium text-slate-700"
-          >
+          <label className="block mb-2 text-sm font-medium text-slate-700">
             Password
           </label>
 
           <input
             type="password"
-            id="exampleInputPassword1"
             value={password}
             onChange={passchangeHandler}
             placeholder="Enter password"
@@ -91,9 +101,10 @@ const Card = () => {
 
         <button
           type="submit"
-          className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+          disabled={loading}
+          className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition disabled:opacity-50"
         >
-          Sign In
+          {loading ? 'Signing in...' : 'Sign In'}
         </button>
       </form>
     </div>

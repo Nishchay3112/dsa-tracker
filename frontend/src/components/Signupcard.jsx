@@ -5,7 +5,9 @@ const Signupcard = () => {
   const [username, setusername] = useState('');
   const [password, setpassword] = useState('');
   const [useremail, setuseremail] = useState('');
-  const Navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
+
+  const navigate = useNavigate();
 
   function userchangeHandler(e) {
     setusername(e.target.value);
@@ -21,34 +23,51 @@ const Signupcard = () => {
 
   async function submitHandler(e) {
     e.preventDefault();
+    setLoading(true);
 
-    const res = await fetch('https://dsa-tracker-lwd0.onrender.com/user/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      credentials: 'include',
-      body: JSON.stringify({
-        username,
-        email: useremail,
-        password
-      })
-    });
+    try {
+      const res = await fetch('https://dsa-tracker-lwd0.onrender.com/user/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          username,
+          email: useremail,
+          password
+        })
+      });
 
-    if (res.ok) {
-      Navigate('/login');
+      const data = await res.json().catch(() => null);
+
+      if (!res.ok) {
+        console.log('Signup failed:', data);
+        alert(data?.message || 'Signup failed');
+        setLoading(false);
+        return;
+      }
+
+      console.log('Signup success:', data);
+
+      navigate('/login');
+
+    } catch (err) {
+      console.error('Network error:', err);
+      alert('Server not reachable. Check backend.');
     }
 
     setusername('');
     setpassword('');
     setuseremail('');
+    setLoading(false);
   }
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4">
       <form
         onSubmit={submitHandler}
-        className="w-full bg-white rounded-3xl shadow-xl px-8 py-2.5 max-w-xl"
+        className="w-full bg-white rounded-3xl shadow-xl px-8 py-8 max-w-xl"
       >
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-slate-800">
@@ -60,16 +79,12 @@ const Signupcard = () => {
         </div>
 
         <div className="mb-5">
-          <label
-            htmlFor="username"
-            className="block mb-2 text-sm font-medium text-slate-700"
-          >
+          <label className="block mb-2 text-sm font-medium text-slate-700">
             Username
           </label>
 
           <input
             type="text"
-            id="username"
             value={username}
             onChange={userchangeHandler}
             placeholder="Enter username"
@@ -78,16 +93,12 @@ const Signupcard = () => {
         </div>
 
         <div className="mb-5">
-          <label
-            htmlFor="exampleInputEmail1"
-            className="block mb-2 text-sm font-medium text-slate-700"
-          >
+          <label className="block mb-2 text-sm font-medium text-slate-700">
             Email Address
           </label>
 
           <input
             type="email"
-            id="exampleInputEmail1"
             value={useremail}
             onChange={useremailchangeHandler}
             placeholder="Enter email"
@@ -96,16 +107,12 @@ const Signupcard = () => {
         </div>
 
         <div className="mb-6">
-          <label
-            htmlFor="exampleInputPassword1"
-            className="block mb-2 text-sm font-medium text-slate-700"
-          >
+          <label className="block mb-2 text-sm font-medium text-slate-700">
             Password
           </label>
 
           <input
             type="password"
-            id="exampleInputPassword1"
             value={password}
             onChange={passchangeHandler}
             placeholder="Enter password"
@@ -115,9 +122,10 @@ const Signupcard = () => {
 
         <button
           type="submit"
-          className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition"
+          disabled={loading}
+          className="w-full py-3 rounded-xl bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition disabled:opacity-50"
         >
-          Create Account
+          {loading ? 'Creating...' : 'Create Account'}
         </button>
       </form>
     </div>
